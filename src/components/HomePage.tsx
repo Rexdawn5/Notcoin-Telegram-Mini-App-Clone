@@ -13,6 +13,7 @@ declare global {
           };
         };
         ready: () => void;
+        onEvent: (event: string, callback: () => void) => void;
       };
     };
   }
@@ -30,22 +31,25 @@ const HomePage: React.FC = () => {
   const [isRewardsExpanded, setIsRewardsExpanded] = useState(false);
   const [isInviteExpanded, setIsInviteExpanded] = useState(false);
 
-  const inviteLink = 'https://t.me/JinglejetBot/myapp';
+  const inviteLink = 'https://t.me/JingleJetbot/JingleJet';
 
-  // Fetch Telegram username
+  // Fetch Telegram username and listen for real-time updates
   useEffect(() => {
-    if (window.Telegram?.WebApp) {
+    if (window.Telegram && window.Telegram.WebApp) {
       console.log('Telegram WebApp detected.');
       try {
+        // Fetch initial username
         const user = window.Telegram.WebApp.initDataUnsafe.user;
-        console.log('User data:', user);
+        setUsername(user?.username || 'Guest');
 
-        if (user?.username) {
-          setUsername(user.username);
-        } else {
-          console.warn('Username not found. Defaulting to "Guest".');
-          setUsername('Guest');
-        }
+        // Listen for WebApp events (optional if updates can occur in real-time)
+        window.Telegram.WebApp.onEvent('usernameChanged', () => {
+          const updatedUser = window.Telegram.WebApp.initDataUnsafe.user;
+          setUsername(updatedUser?.username || 'Guest');
+        });
+
+        // Notify Telegram that the WebApp is ready
+        window.Telegram.WebApp.ready();
       } catch (error) {
         console.error('Error fetching Telegram username:', error);
         setUsername('Guest');
@@ -121,12 +125,6 @@ const HomePage: React.FC = () => {
             <p className="text-lg font-semibold text-gray-700 mb-4">
               Invite your friends and earn rewards!
             </p>
-            <input
-              type="text"
-              value={inviteLink}
-              readOnly
-              className="w-full p-2 mb-4 border border-gray-300 rounded text-gray-600 text-center"
-            />
             <button
               onClick={copyInviteLink}
               className="p-2 bg-indigo-700 text-white rounded hover:bg-indigo-800"
