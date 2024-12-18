@@ -1,0 +1,29 @@
+.splash-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black; /* Black background */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white; /* Ensures text stands out on the black background */
+  z-index: 9999; /* Ensures it appears above all other content */
+}
+
+.logo {
+  margin-bottom: 20px;
+}
+
+.logo-image {
+  width: 150px;
+  height: auto;
+}
+
+.loading-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+}
