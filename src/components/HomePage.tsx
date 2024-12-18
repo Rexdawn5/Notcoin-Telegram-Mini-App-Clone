@@ -13,7 +13,6 @@ declare global {
           };
         };
         ready: () => void;
-        onEvent: (event: string, callback: () => void) => void;
       };
     };
   }
@@ -27,27 +26,23 @@ const rewards = [
 ];
 
 const HomePage: React.FC = () => {
-  const [username, setUsername] = useState<string | null>(null);
+  const [username, setUsername] = useState<string>('Guest'); // Default to 'Guest'
   const [isRewardsExpanded, setIsRewardsExpanded] = useState(false);
   const [isInviteExpanded, setIsInviteExpanded] = useState(false);
 
-  const inviteLink = 'https://t.me/JingleJetbot/JingleJet';
+  const inviteLink = 'https://t.me/JinglejetBot/myapp';
 
-  // Fetch Telegram username and listen for real-time updates
+  // Fetch Telegram username
   useEffect(() => {
-    if (window.Telegram && window.Telegram.WebApp) {
+    if (window.Telegram?.WebApp) {
       console.log('Telegram WebApp detected.');
       try {
-        // Fetch initial username
         const user = window.Telegram.WebApp.initDataUnsafe.user;
-        setUsername(user?.username || 'Guest');
-
-        // Listen for WebApp events (optional if updates can occur in real-time)
-        window.Telegram.WebApp.onEvent('usernameChanged', () => {
-          const updatedUser = window.Telegram.WebApp.initDataUnsafe.user;
-          setUsername(updatedUser?.username || 'Guest');
-        });
-
+        if (user?.username) {
+          setUsername(user.username);
+        } else {
+          setUsername('Guest'); // Default if no username
+        }
         // Notify Telegram that the WebApp is ready
         window.Telegram.WebApp.ready();
       } catch (error) {
@@ -72,7 +67,7 @@ const HomePage: React.FC = () => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       {/* Display Telegram Username */}
       <div className="w-full text-center p-4 text-blue-500 text-lg font-semibold">
-        {username === null ? 'Checking...' : `Welcome, @${username}`}
+        {username === 'Guest' ? 'Checking...' : `Welcome, @${username}`}
       </div>
 
       {/* Centered Image */}
@@ -125,6 +120,12 @@ const HomePage: React.FC = () => {
             <p className="text-lg font-semibold text-gray-700 mb-4">
               Invite your friends and earn rewards!
             </p>
+            <input
+              type="text"
+              value={inviteLink}
+              readOnly
+              className="w-full p-2 mb-4 border border-gray-300 rounded text-gray-600 text-center"
+            />
             <button
               onClick={copyInviteLink}
               className="p-2 bg-indigo-700 text-white rounded hover:bg-indigo-800"
