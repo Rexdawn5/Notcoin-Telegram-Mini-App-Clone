@@ -18,11 +18,12 @@ declare global {
   }
 }
 
+// Rewards array with embedded links
 const rewards = [
-  { cost: '0.5 TON', reward: '1 TON' },
-  { cost: '1 TON', reward: '2 TON' },
-  { cost: '2 TON', reward: '5 TON' },
-  { cost: '5 TON', reward: '10 TON' },
+  { cost: '0.5 TON', reward: '1 TON', link: 'https://t.me/send?start=IVXQhfpiH900' }, // Link for 0.5 TON
+  { cost: '1 TON', reward: '2 TON', link: 'https://t.me/send?start=IV9jdjl7BVe7' },
+  { cost: '2 TON', reward: '5 TON', link: 'https://t.me/send?start=IVV6Y78fTWq3' }, // Updated link for 2 TON
+  { cost: '5 TON', reward: '10 TON', link: 'https://t.me/send?start=IVnVGwPy7NyV' }, // Link for 5 TON
 ];
 
 const HomePage: React.FC = () => {
@@ -95,7 +96,7 @@ const HomePage: React.FC = () => {
             {rewards.map((reward, index) => (
               <a
                 key={index}
-                href={`https://t.me/send?start=${index}`} // Update with actual links
+                href={reward.link} // Use the link specified in the rewards array
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block p-4 text-center bg-indigo-700 text-white rounded hover:bg-indigo-800"
