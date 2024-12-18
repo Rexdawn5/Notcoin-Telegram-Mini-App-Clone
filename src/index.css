@@ -4,6 +4,7 @@
 
 body {
   font-family: sans-serif;
+  background-color: white; /* Ensures the background is white */
 }
 
 @keyframes float {
@@ -22,7 +23,7 @@ body {
 }
 
 .bg-gradient-overlay {
-  background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 40%, rgba(0,212,255,0) 100%);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 40%, rgba(0, 212, 255, 0) 100%);
 }
 
 .radial-gradient-overlay {
