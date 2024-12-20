@@ -101,7 +101,7 @@ const HomePage: React.FC = () => {
                 rel="noopener noreferrer"
                 className="block p-4 text-center bg-indigo-700 text-white rounded hover:bg-indigo-800"
               >
-                Pay: {reward.cost} <br /> Receive: {reward.reward}
+                gift🎁: {reward.cost} <br /> Receive: {reward.reward}
               </a>
             ))}
           </div>
